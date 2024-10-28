@@ -33,17 +33,15 @@ services:
     <<: [*env_file, *restart]
     environment:
       - DB_HOST=db
-      - DB_USER=app
+      - DB_USER=${MYSQL_USER}
       - DB_PASSWORD:${MYSQL_PASSWORD}
-      - DB_NAME=example
+      - DB_NAME=${MYSQL_DATABASE}
  
   
 #Создание bridge-сети с названием "backend" 172.20.0.0/24
 networks:
   backend:
     driver: bridge
-    internal: true
     ipam:
-     driver: default
      config:
        - subnet: 172.20.0.0/24
