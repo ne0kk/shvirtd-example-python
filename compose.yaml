@@ -1,4 +1,4 @@
-version: "3"
+
 #Описание переменных для секретов и рестртов
 x-env_file: &env_file
   env_file:
@@ -42,7 +42,6 @@ services:
 networks:
   backend:
     driver: bridge
-    enable_ipv6: true
     internal: true
     ipam:
      driver: default
