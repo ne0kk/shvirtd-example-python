@@ -21,19 +21,18 @@ services:
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
        
-
   web:
-  depends_on: ["db"]
-    dockerfile:  Dockerfile.python
-    networks:
-      backend:
-        ipv4_address: 172.20.0.5
-    <<: [*env_file, *restart]
-    environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    depends_on: ["db"]
+      dockerfile:  Dockerfile.python
+      networks:
+        backend:
+          ipv4_address: 172.20.0.5
+      <<: [*env_file, *restart]
+      environment:
+        - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+        - MYSQL_DATABASE=${MYSQL_DATABASE}
+        - MYSQL_USER=${MYSQL_USER}
+        - MYSQL_PASSWORD=${MYSQL_PASSWORD}
  
   
 #Создание bridge-сети с названием "backend" 172.20.0.0/24
