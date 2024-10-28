@@ -55,6 +55,7 @@ services:
   nginx_ingress:
     image: nginx:latest
     container_name: nginx_ingress
+    networks: host
     ports:
     - '127.0.0.1:8090:8080'
     <<: [*env_file, *restart]
