@@ -5,17 +5,7 @@ x-env_file: &env_file
     - .env
 x-restart: &restart
   restart: always #no, on-failure , always(default), unless-stopped
-  
-#Создание bridge-сети с названием "backend" 172.20.0.0/24
-networks:
-  backend:
-    driver: bridge
-    enable_ipv6: true
-    internal: true
-    ipam:
-     driver: default
-     config:
-       - subnet: 172.20.0.0/24
+
 
 #Созадние сервиса БД
 services:
@@ -45,3 +35,14 @@ services:
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
  
+  
+#Создание bridge-сети с названием "backend" 172.20.0.0/24
+networks:
+  backend:
+    driver: bridge
+    enable_ipv6: true
+    internal: true
+    ipam:
+     driver: default
+     config:
+       - subnet: 172.20.0.0/24
