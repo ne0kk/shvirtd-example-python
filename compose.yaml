@@ -10,6 +10,7 @@ x-restart: &restart
 #Созадние сервиса БД
 services:
   db:
+    container_name: db
     image: mysql:latest
     networks:
       backend:
@@ -23,7 +24,9 @@ services:
        
   web:
     depends_on: ["db"]
-    dockerfile:  Dockerfile.python
+    container_name: web
+    build:
+      dockerfile:  Dockerfile.python
     networks:
       backend:
         ipv4_address: 172.20.0.5
