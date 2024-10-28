@@ -17,12 +17,13 @@ services:
         ipv4_address: 172.20.0.10
     <<: [*env_file, *restart]
     environment:
-      - MYSQL_ROOT_PASSWORD:${MYSQL_ROOT_PASSWORD}
-      - MYSQL_ROOT_PASSWORD:${MYSQL_ROOT_PASSWORD}
-      - MYSQL_DATABASE:${MYSQL_DATABASE}
-      - MYSQL_USER:${MYSQL_USER}
-      - MYSQL_PASSWORD:${MYSQL_PASSWORD}
-       
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+
+#создание сервиса python
   web:
     depends_on: ["db"]
     container_name: web
@@ -37,6 +38,30 @@ services:
       - DB_USER=${MYSQL_USER}
       - DB_PASSWORD=${MYSQL_PASSWORD}
       - DB_NAME=${MYSQL_DATABASE}
+
+#Создание сервиса перенаправления
+  haproxy_reverse:
+    container_name: haproxy_reverse
+    image: haproxy
+    networks:
+      backend:
+        ipv4_address: 172.20.0.11
+    <<: [*env_file, *restart]
+    volumes:
+    - ./haproxy/reverse/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:rw
+
+        
+#Создание сервиса 
+  nginx_ingress:
+    image: nginx:latest
+    container_name: nginx_ingress
+    ports:
+    - '8090:8080'
+    <<: [*env_file, *restart]
+    volumes:
+    - ./nginx/ingress/default.conf:/etc/nginx/conf.d/default.conf:rw
+    - ./nginx/ingress/nginx.conf:/etc/nginx/nginx.conf:rw
+    
  
   
 #Создание bridge-сети с названием "backend" 172.20.0.0/24
