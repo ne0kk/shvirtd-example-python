@@ -6,6 +6,13 @@ x-env_file: &env_file
 x-restart: &restart
   restart: always #no, on-failure , always(default), unless-stopped
 
+#Создание bridge-сети с названием "backend" 172.20.0.0/24
+networks:
+  backend:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 172.20.0.0/24
 
 #Созадние сервиса БД
 services:
@@ -17,9 +24,8 @@ services:
         ipv4_address: 172.20.0.10
     <<: [*env_file, *restart]
     environment:
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
 
@@ -39,21 +45,8 @@ services:
       - DB_PASSWORD=${MYSQL_PASSWORD}
       - DB_NAME=${MYSQL_DATABASE}
 
-#Создание сервиса перенаправления
-  haproxy_reverse:
-    container_name: haproxy_reverse
-    image: haproxy
-    networks:
-      backend:
-        ipv4_address: 172.20.0.11
-    ports:
-    - '127.0.0.1:8080:8080'
-    <<: [*env_file, *restart]
-    volumes:
-    - ./haproxy/reverse/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:rw
-
         
-#Создание сервиса 
+#Создание сервиса перенаправления в закрытую сеть
   nginx_ingress:
     image: nginx:latest
     container_name: nginx_ingress
@@ -62,15 +55,21 @@ services:
     - '127.0.0.1:8090:8090'
     <<: [*env_file, *restart]
     volumes:
-    - ./nginx/ingress/default.conf:/etc/nginx/conf.d/default.conf:rw
-    - ./nginx/ingress/nginx.conf:/etc/nginx/nginx.conf:rw
+    - ./nginx/ingress/default.conf:/etc/nginx/conf.d/default.conf
+    - ./nginx/ingress/nginx.conf:/etc/nginx/nginx.conf
+
     
- 
+
+  haproxy_reverse:
+    container_name: haproxy_reverse
+    image: haproxy
+    networks:
+      backend:
+        ipv4_address: 172.20.0.20
+    ports:
+    - '127.0.0.1:8080:8080'
+    <<: [*env_file, *restart]
+    volumes:
+    - ./haproxy/reverse/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
   
-#Создание bridge-сети с названием "backend" 172.20.0.0/24
-networks:
-  backend:
-    driver: bridge
-    ipam:
-     config:
-       - subnet: 172.20.0.0/24
+
