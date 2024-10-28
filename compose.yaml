@@ -32,10 +32,10 @@ services:
         ipv4_address: 172.20.0.5
     <<: [*env_file, *restart]
     environment:
-        - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-        - MYSQL_DATABASE=${MYSQL_DATABASE}
-        - MYSQL_USER=${MYSQL_USER}
-        - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - DB_HOST=db
+      - DB_USER=app
+      - DB_PASSWORD:${MYSQL_PASSWORD}
+      - DB_NAME=example
  
   
 #Создание bridge-сети с названием "backend" 172.20.0.0/24
