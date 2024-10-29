@@ -1,5 +1,6 @@
 #!/bin/bash
 source /home/user/data.txt
+docker pull schnitzler/mysqldump
 docker run \
     --rm --entrypoint "" \
     -v `pwd`/backup:/backup \
