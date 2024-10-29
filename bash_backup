@@ -4,6 +4,6 @@ docker pull schnitzler/mysqldump
 docker run \
     --rm --entrypoint "" \
     -v `pwd`/backup:/backup \
-    --link="mysql:latest" \
+    --link="mysql" \
     schnitzler/mysqldump \
     mysqldump --opt -h alias -u $login -p$pass "--result-file=/opt/backup/dumps.sql" virtd
