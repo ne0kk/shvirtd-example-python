@@ -1,5 +1,5 @@
 #!/bin/bash
 source /home/user/data.txt
 docker pull schnitzler/mysqldump
-docker run -it  schnitzler/mysqldump /bin/bash
+docker run --rm --entrypoint "" -it  schnitzler/mysqldump /bin/bash
 
