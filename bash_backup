@@ -7,4 +7,4 @@ docker run \
     -v `pwd`/backup:/backup \
     --link="db" \
     schnitzler/mysqldump \
-    mysqldump --opt -h 172.20.0.10 -u $login -p$pass "--result-file=/backup/dumps.sql" virtd
+    mysqldump --opt -h 172.20.0.10 -u root -pYtReWq4321 "--result-file=/backup/dumps.sql" virtd
