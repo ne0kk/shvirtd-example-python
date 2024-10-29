@@ -1,8 +1,5 @@
 #!/bin/bash
 source /home/user/data.txt
 docker pull schnitzler/mysqldump:3.4
-docker run \
-    --network shvirtd-example-python_backend \
-    -v `pwd`/backup:/backup \
-    -it
+docker run -it --network shvirtd-example-python_backend -v `pwd`/backup:/backup   schnitzler/mysqldump
 
