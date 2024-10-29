@@ -2,7 +2,7 @@
 source /home/user/data.txt
 docker pull schnitzler/mysqldump
 docker run \
-    --network backend \
+    --network shvirtd-example-python_backend \
     --rm --entrypoint "" \
     -v `pwd`/backup:/backup \
     --link="db" \
