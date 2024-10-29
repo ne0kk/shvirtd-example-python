@@ -28,6 +28,7 @@ services:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    command: bash -c "apk add --no-cache mysql-client mariadb-connector-c"
 
 #создание сервиса python
   web:
