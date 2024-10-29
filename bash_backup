@@ -1,6 +1,6 @@
 #!/bin/bash
 source /home/user/data.txt
-docker pull schnitzler/mysqldump
+docker pull schnitzler/mysqldump:3.4
 docker run \
     --network shvirtd-example-python_backend \
     --rm --entrypoint "" \
